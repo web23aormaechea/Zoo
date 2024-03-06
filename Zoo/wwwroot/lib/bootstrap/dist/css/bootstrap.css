@@ -99,7 +99,7 @@ body {
     line-height: var(--bs-body-line-height);
     color: var(--bs-body-color);
     text-align: var(--bs-body-text-align);
-    background-color: var(--bs-body-bg);
+    background-color: #FFF2E3; /*var(--bs-body-bg);*/
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
@@ -549,6 +549,8 @@ progress {
 @media (min-width: 1200px) {
     .display-4 {
         font-size: 3.5rem;
+        align-items: center;
+        
     }
 }
 
@@ -620,7 +622,7 @@ progress {
     }
 
 .img-fluid {
-    max-width: 100%;
+    max-width: 90%;
     height: auto;
 }
 
@@ -1389,8 +1391,8 @@ progress {
     }
 
     .col-lg-auto {
-        flex: 10 0 auto;
-        
+        flex: 10 10 auto;
+        padding-top:10%;
         width: auto;
     }
 
