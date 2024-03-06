@@ -13,4 +13,8 @@
     <None Remove="wwwroot\lib\img\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
 </Project>
