@@ -7,11 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\lib\img\hero-background.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="wwwroot\lib\img\hero-background.jpg" />
+    <Compile Remove="wwwroot\lib\img\**" />
+    <Content Remove="wwwroot\lib\img\**" />
+    <EmbeddedResource Remove="wwwroot\lib\img\**" />
+    <None Remove="wwwroot\lib\img\**" />
   </ItemGroup>
 
 </Project>
