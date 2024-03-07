@@ -1,36 +1,45 @@
 ﻿@model ArrazaVM
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <input asp-for="Arraza.ID" hidden />
+    <input asp-for="Arraza.ImageUrl" hidden />
     <div clasModelOnlys="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary">Ezabatu Arraza</h2>
+            <h2 class="text-primary"> @(Model.Arraza.ID!=0?"Aldatu":"Sortu") Arraza</h2>
             <hr />
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Arraza.Izena" class="p-0"></label>
-            <input asp-for="Arraza.Izena" disabled class="form-control" />
+            <input asp-for="Arraza.Izena" class="form-control" />
             <span asp-validation-for="Arraza.Izena" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Arraza.Mota" class="p-0"></label>
-            <input asp-for="Arraza.Mota" disabled class="form-control" />
+            <input asp-for="Arraza.Mota" class="form-control" />
             <span asp-validation-for="Arraza.Mota" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Arraza.ID_lekua" class="p-0"></label>
-            <select asp-for="Arraza.ID_lekua" disabled asp-items="@Model.LekuakList" class="form-select">
+            <select asp-for="Arraza.ID_lekua" asp-items="@Model.LekuakList" class="form-select">
                 <option disabled selected>--Hautatu Lekua--</option>
             </select>
             <span asp-validation-for="Arraza.ID_lekua" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
             <label asp-for="Arraza.ImageUrl" class="p-0"></label>
+            <input type="file" name="file" class="form-control" />
             <img src="@Model.Arraza.ImageUrl" width="100px" style="border-radius:5px; border:1px solid #bbb9b9" />
         </div>
         <div class="row">
             <div class="col-6 col-md-3">
-                <button type="submit" class="btn btn-danger form-control">Delete</button>
+                @if (Model.Arraza.ID != 0)
+                {
+                    <button type="submit" class="btn btn-primary form-control">Aldatu</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary form-control">Sortu</button>
+                }   
             </div>
             <div class="col-6 col-md-3">
                 <a asp-controller="Arraza" asp-action="Index" class="btn btn-secondary border form-control">
@@ -43,4 +52,8 @@
 
 </form>
 
-
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

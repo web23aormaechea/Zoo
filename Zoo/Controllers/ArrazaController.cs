@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using Zoo.Data;
 using Zoo.Models;
+using Zoo.Models.ViewModels;
 
 namespace Zoo.Controllers
 {
@@ -12,10 +16,13 @@ namespace Zoo.Controllers
         {
             _db = db;
             _webHostEnvironment = webHostEnvironment;
+            _db.Arrazak.Include(u => u.ID_lekua);
         }
+        
         public IActionResult Index()
         {
             List<Arraza> objArrazaList = _db.Arrazak.ToList();
+            
             return View(objArrazaList);
         }
         public IActionResult List()
@@ -23,85 +30,123 @@ namespace Zoo.Controllers
             List<Arraza> objArrazaList = _db.Arrazak.ToList();
             return View(objArrazaList);
         }
-        public IActionResult Create()
+        public IActionResult Upsert(int? ID)
         {
-            return View();
+            ArrazaVM arrazaVM = new() 
+            {
+                LekuakList = _db.Lekuak.ToList().Select(u => new SelectListItem
+                {
+                    Text = u.Izena,
+                    Value = u.ID.ToString()
+                }),
+                Arraza = new Arraza()
+            };
+            if (ID == null) {
+                //create
+                return View(arrazaVM);
+            }
+            else
+            {
+                //update
+                arrazaVM.Arraza = _db.Arrazak.Find(ID);
+                return View(arrazaVM);
+            }
         }
         [HttpPost]
-        public IActionResult Create(Arraza obj, IFormFile? file)
+        public IActionResult Upsert(ArrazaVM arrazaVM, IFormFile? file)
         {
-            obj.ImageUrl = "temp";
-            if (ModelState.IsValid)
+             if (ModelState.IsValid)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if(file!= null)
+                if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string arrazaPath = Path.Combine(wwwRootPath, @"images\arraza");
+                    if (!string.IsNullOrEmpty(arrazaVM.Arraza.ImageUrl))
+                    {
+                        //Delete the old image in the update
+                        var oldImagePath = Path.Combine(wwwRootPath, arrazaVM.Arraza.ImageUrl.TrimStart('\\'));
 
-                    using (var fileStream = new FileStream(Path.Combine(arrazaPath, fileName),FileMode.Create)) 
-                    { 
+                        if(System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+                    using (var fileStream = new FileStream(Path.Combine(arrazaPath, fileName), FileMode.Create))
+                    {
                         file.CopyTo(fileStream);
                     }
-                    obj.ImageUrl = @"\images\arraza\" + fileName;
+                    arrazaVM.Arraza.ImageUrl = @"\images\arraza\" + fileName;
                 }
-                _db.Arrazak.Add(obj);
+                if (arrazaVM.Arraza.ID == 0) 
+                {
+                    _db.Arrazak.Add(arrazaVM.Arraza);
+                }
+                else
+                {
+                    _db.Arrazak.Update(arrazaVM.Arraza);
+                }
                 _db.SaveChanges();
                 TempData["success"] = "Arraza ondo sortuta";
                 return RedirectToAction("Index");
             }
-            return View();
+            else 
+            {
+                arrazaVM.LekuakList = _db.Lekuak.ToList().Select(u => new SelectListItem
+                {
+                    Text = u.Izena,
+                    Value = u.ID.ToString()
+                });
+                return View(arrazaVM);
+            }
+            
         }
 
-        public IActionResult Edit(int? Id)
-        {
-            if (Id == null)
-            {
-                return NotFound();
-            }
-            Arraza? arrazaFromDb = _db.Arrazak.Find(Id);
-            //Category? categoryFromDb1 = _db.Categories.FirstOrDefault(u=>u.Id==Id);
-            //Category? categoryFromDb2 = _db.Categories.Where(u => u.Id == Id).FirstOrDefault();
-            if (arrazaFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(arrazaFromDb);
-        }
-        [HttpPost]
-        public IActionResult Edit(Arraza obj)
-        {
 
-            if (ModelState.IsValid)
-            {
-                _db.Arrazak.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Arraza ondo aldatuta";
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
 
-        public IActionResult Delete(int? Id)
+        public IActionResult Delete(int? ID)
         {
-            if (Id == null || Id == 0)
+            if (ID == null)
+            {
+                //create
+                return NotFound();
+            }
+            ArrazaVM arrazaVM = new()
+            {
+                LekuakList = _db.Lekuak.ToList().Select(u => new SelectListItem
+                {
+                    Text = u.Izena,
+                    Value = u.ID.ToString()
+                }),
+                Arraza = new Arraza()
+            };
+ 
+            arrazaVM.Arraza = _db.Arrazak.Find(ID);
+     
+            if (arrazaVM == null)
             {
                 return NotFound();
             }
-            Arraza? categoryFromDb = _db.Arrazak.Find(Id);
-            if (categoryFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(categoryFromDb);
+            return View(arrazaVM);
         }
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? Id)
+        public IActionResult DeletePOST(int? ID)
         {
-            Arraza? obj = _db.Arrazak.Find(Id);
+            Arraza? obj = _db.Arrazak.Find(ID);
             if (obj == null)
             {
                 return NotFound();
+            }
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (!string.IsNullOrEmpty(obj.ImageUrl))
+            {
+                //Delete the old image in the update
+                var oldImagePath = Path.Combine(wwwRootPath, obj.ImageUrl.TrimStart('\\'));
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
             }
             _db.Arrazak.Remove(obj);
             _db.SaveChanges();

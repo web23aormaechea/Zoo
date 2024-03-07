@@ -11,5 +11,7 @@ namespace Zoo.Data
             
         }
         public DbSet<Arraza> Arrazak { get; set; }
+
+        public DbSet<Lekua> Lekuak { get; set; }
     }
 }
