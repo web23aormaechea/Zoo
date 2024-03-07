@@ -90,8 +90,11 @@
         scroll-behavior: smooth;
     }
 }
-
+.fotos{
+   
+}
 body {
+    width:100%;
     margin: 0;
     font-family: var(--bs-body-font-family);
     font-size: var(--bs-body-font-size);
@@ -648,6 +651,14 @@ progress {
     font-size: 0.875em;
     color: #6c757d;
 }
+/*.container-green {
+   
+    height:fit-content;
+    width:80%;
+    
+    
+    
+}*/
 
 .container,
 .container-fluid,
@@ -667,31 +678,31 @@ progress {
 
 @media (min-width: 576px) {
     .container-sm, .container {
-        max-width: 540px;
+        max-width: 100%;
     }
 }
 
 @media (min-width: 768px) {
     .container-md, .container-sm, .container {
-        max-width: 720px;
+        max-width: 100%;
     }
 }
 
 @media (min-width: 992px) {
     .container-lg, .container-md, .container-sm, .container {
-        max-width: 960px;
+        max-width: 100%;
     }
 }
 
 @media (min-width: 1200px) {
     .container-xl, .container-lg, .container-md, .container-sm, .container {
-        max-width: 1140px;
+        max-width: 100%;
     }
 }
 
 @media (min-width: 1400px) {
     .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-        max-width: 1320px;
+        max-width: 100%;
     }
 }
 
@@ -1564,6 +1575,7 @@ progress {
         --bs-gutter-y: 3rem;
     }
 }
+
 
 @media (min-width: 1200px) {
     .col-xl {
@@ -8513,7 +8525,7 @@ textarea.form-control-lg {
 }
 
 .p-5 {
-    padding: 3rem !important;
+    padding: 2rem !important;
 }
 
 .px-0 {
@@ -12409,6 +12421,7 @@ textarea.form-control-lg {
 }
 
 html {
+
     scroll-padding-top: 67px;
 }
 
@@ -12440,17 +12453,19 @@ html {
         letter-spacing: 0.1rem;
     }
 
-header.masthead {
-    position: relative;
-    overflow: hidden;
-    padding-top: calc(7rem + 72px);
-    padding-bottom: 7rem;
-    background: linear-gradient(0deg, #ff6a00 0%, #ee0979 100%);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: scroll;
-    background-size: cover;
-}
+
+    header.masthead {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        padding-top: calc(7rem + 72px);
+        padding-bottom: 7rem;
+        background: linear-gradient(0deg, #27AE60 0%, #DAF7A6 100%);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: scroll;
+        background-size: cover;
+    }
 
     header.masthead .masthead-content {
         z-index: 1;
@@ -12469,7 +12484,7 @@ header.masthead {
         z-index: 0;
         position: absolute;
         border-radius: 100%;
-        background: linear-gradient(0deg, #ee0979 0%, #ff6a00 100%);
+        background: linear-gradient(0deg, #DAF7A6 0%, #27AE60 100%);
     }
 
     header.masthead .bg-circle-1 {
