@@ -1,0 +1,33 @@
+﻿@model List<Arraza>
+
+<div class="container>">
+    <div class="row pt-4 pb-3">
+        <div class="col-6">
+            <h2 class="text-primary">
+                Zoo-an ikusi daitezken arrazak
+            </h2>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Arraza
+                </th>
+                <th>
+                    Deskribapena
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.OrderBy(u => u.ID))
+            {
+                <tr>
+                    <td>@obj.Izena</td>
+                    <td>@obj.Mota</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
