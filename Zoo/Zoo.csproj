@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+
+    <Compile Remove="wwwroot\lib\img\**" />
+    <Content Remove="wwwroot\lib\img\**" />
+    <EmbeddedResource Remove="wwwroot\lib\img\**" />
+    <None Remove="wwwroot\lib\img\**" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.1.24081.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.1.24081.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.1.24081.2">
@@ -17,6 +22,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\arraza\" />
+     <Folder Include="wwwroot\NewFolder\" />
+
   </ItemGroup>
 
 </Project>
