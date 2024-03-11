@@ -22,6 +22,10 @@ namespace Zoo.Controllers
         {
             return View();
         }
+        public IActionResult Gestion()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
