@@ -18,13 +18,16 @@
         <thead>
             <tr>
                 <th>
+
+                </th>
+                <th>
                     Arraza
                 </th>
                 <th>
                     Deskribapena
                 </th>
                 <th>
-
+                    Lekua
                 </th>
             </tr>
         </thead>
@@ -35,6 +38,13 @@
                     <td><img src="@obj.ImageUrl" width="100px" style="border-radius:5px; border:1px solid #bbb9b9" /></td>
                     <td>@obj.Izena</td>
                     <td>@obj.Mota</td>
+                    @foreach (var lk in ViewBag.objLekuaList)
+                        {
+                            @if (@obj.ID_lekua == lk.ID)
+                            {
+                                <td>@lk.Izena</td>
+                            }
+                        }
                     <td>
                         <div class="w-75 btn-group" role="group">
                             <a asp-controller="arraza" asp-action="Upsert" asp-route-id="@obj.ID" class="btn btn-primary mx-2">

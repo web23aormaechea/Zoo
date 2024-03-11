@@ -16,18 +16,21 @@ namespace Zoo.Controllers
         {
             _db = db;
             _webHostEnvironment = webHostEnvironment;
-            _db.Arrazak.Include(u => u.ID_lekua);
         }
         
         public IActionResult Index()
         {
             List<Arraza> objArrazaList = _db.Arrazak.ToList();
-            
+            List<Lekua> objLekuaList = _db.Lekuak.ToList();
+            ViewBag.objLekuaList = objLekuaList;
             return View(objArrazaList);
         }
+        
         public IActionResult List()
         {
             List<Arraza> objArrazaList = _db.Arrazak.ToList();
+            List<Lekua> objLekuaList = _db.Lekuak.ToList();
+            ViewBag.objLekuaList = objLekuaList;
             return View(objArrazaList);
         }
         public IActionResult Upsert(int? ID)
