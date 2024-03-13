@@ -8,40 +8,26 @@
             </h2>
         </div>
     </div>
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>
-
-                </th>
-                <th>
-                    Arraza
-                </th>
-                <th>
-                    Deskribapena
-                </th>
-                <th>
-                    Lekua
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var obj in Model.OrderBy(u => u.ID))
-            {
-                <tr>
-                    <td><img src="@obj.ImageUrl" width="100px" style="border-radius:5px; border:1px solid #bbb9b9" /></td>
-                    <td>@obj.Izena</td>
-                    <td>@obj.Mota</td>
+    <div class="row">
+        @foreach (var obj in Model.OrderBy(u => u.ID))
+        {
+            <div class="card border-0 col-4">
+                <img src="@obj.ImageUrl" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@obj.Izena</h5>
+                    <p class="card-text">@obj.Deskribapena</p>
                     @foreach (var lk in ViewBag.objLekuaList)
                     {
                         @if (@obj.ID_lekua == lk.ID)
                         {
-                            <td>@lk.Izena</td>
+                            <p class="card-text">@lk.Izena</p>
                         }
                     }
-                </tr>
-            }
-        </tbody>
+                    <a href="#" class="btn btn-primary">Ikusi animaliak</a>
+                </div>
+            </div>
 
-    </table>
+        }
+    </div>
+
 </div>
