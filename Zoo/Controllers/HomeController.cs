@@ -26,6 +26,10 @@ namespace Zoo.Controllers
         {
             return View();
         }
+        public IActionResult List()
+        {
+            return View();
+        }
 
         public IActionResult List()
         {
