@@ -19,7 +19,7 @@
             <span asp-validation-for="Arraza.Deskribapena" class="text-danger"></span>
         </div>
         <div class="mb-3 row p-1">
-            <label asp-for="Arraza.ID_lekua" class="p-0"></label>
+            <label class="p-0">Lekua</label>
             <select asp-for="Arraza.ID_lekua" asp-items="@Model.LekuakList" class="form-select">
                 <option disabled selected>--Hautatu Lekua--</option>
             </select>
@@ -43,7 +43,7 @@
             </div>
             <div class="col-6 col-md-3">
                 <a asp-controller="Arraza" asp-action="Index" class="btn btn-secondary border form-control">
-                    Back to List
+                    Bueltatu
                 </a>
             </div>
         </div>
