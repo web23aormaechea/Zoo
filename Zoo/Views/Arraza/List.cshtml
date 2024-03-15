@@ -11,8 +11,9 @@
     <div class="row">
         @foreach (var obj in Model.OrderBy(u => u.ID))
         {
-            <div class="card border-0 col-4">
-                <img src="@obj.ImageUrl" class="card-img-top" alt="...">
+            <div class="col-4">
+            <div class="card   border-secondary ">
+                <img src="@obj.ImageUrl" class="card-img-top" alt="..." style="height:400px; width:auto">
                 <div class="card-body">
                     <h5 class="card-title">@obj.Izena</h5>
                     <p class="card-text">@obj.Deskribapena</p>
@@ -25,6 +26,7 @@
                     }
                     <a href="#" class="btn btn-primary">Ikusi animaliak</a>
                 </div>
+            </div>
             </div>
 
         }
