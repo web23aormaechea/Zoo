@@ -3,7 +3,7 @@
 <div class="container>">
     <div class="row pt-4 pb-3">
         <div class="col-6">
-            <h2 class="text-primary">
+            <h2 class="text-dark">
                 Zoo-an ikusi daitezken arrazak
             </h2>
         </div>
@@ -12,11 +12,11 @@
         @foreach (var obj in Model.OrderBy(u => u.ID))
         {
             <div class="col-4">
-            <div class="card   border-secondary ">
+                <div class="card  shadow-sm  " >
                 <img src="@obj.ImageUrl" class="card-img-top" alt="..." style="height:400px; width:auto">
                 <div class="card-body">
                     <h5 class="card-title">@obj.Izena</h5>
-                    <p class="card-text">@obj.Deskribapena</p>
+                    <p class="card-text" >@obj.Deskribapena</p>
                     @foreach (var lk in ViewBag.objLekuaList)
                     {
                         @if (@obj.ID_lekua == lk.ID)
@@ -24,7 +24,7 @@
                             <p class="card-text">@lk.Izena</p>
                         }
                     }
-                    <a href="#" class="btn btn-primary">Ikusi animaliak</a>
+                        <a href="#" class="btn btn-success">Ikusi animaliak</a>
                 </div>
             </div>
             </div>
