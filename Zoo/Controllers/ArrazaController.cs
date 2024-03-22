@@ -5,31 +5,34 @@ using System.Collections.Generic;
 using Zoo.Data;
 using Zoo.Models;
 using Zoo.Models.ViewModels;
+using Zoo.Repository.IRepository;
 
 namespace Zoo.Controllers
 {
     public class ArrazaController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly ApplicationDbContext _db;
-        public ArrazaController(ApplicationDbContext db, IWebHostEnvironment webHostEnvironment)
+        private readonly IUnitOfWork _UnitOfWork;
+        private readonly ILekuaRepository _LekuaRepo;
+        public ArrazaController(IUnitOfWork unitOfWork, ILekuaRepository db2, IWebHostEnvironment webHostEnvironment)
         {
-            _db = db;
+            _UnitOfWork = unitOfWork;
+            _LekuaRepo = db2;
             _webHostEnvironment = webHostEnvironment;
         }
         
         public IActionResult Index()
         {
-            List<Arraza> objArrazaList = _db.Arrazak.ToList();
-            List<Lekua> objLekuaList = _db.Lekuak.ToList();
+            List<Arraza> objArrazaList = _UnitOfWork.Arraza.GetAll().ToList();
+            List<Lekua> objLekuaList = _LekuaRepo.GetAll().ToList();
             ViewBag.objLekuaList = objLekuaList;
             return View(objArrazaList);
         }
         
         public IActionResult List()
         {
-            List<Arraza> objArrazaList = _db.Arrazak.ToList();
-            List<Lekua> objLekuaList = _db.Lekuak.ToList();
+            List<Arraza> objArrazaList = _UnitOfWork.Arraza.GetAll().ToList();
+            List<Lekua> objLekuaList = _LekuaRepo.GetAll().ToList();
             ViewBag.objLekuaList = objLekuaList;
             return View(objArrazaList);
         }
@@ -37,7 +40,7 @@ namespace Zoo.Controllers
         {
             ArrazaVM arrazaVM = new() 
             {
-                LekuakList = _db.Lekuak.ToList().Select(u => new SelectListItem
+                LekuakList = _LekuaRepo.GetAll().ToList().Select(u => new SelectListItem
                 {
                     Text = u.Izena,
                     Value = u.ID.ToString()
@@ -51,7 +54,7 @@ namespace Zoo.Controllers
             else
             {
                 //update
-                arrazaVM.Arraza = _db.Arrazak.Find(ID);
+                arrazaVM.Arraza = _UnitOfWork.Arraza.Get(u=>u.ID==ID);
                 return View(arrazaVM);
             }
         }
@@ -83,19 +86,19 @@ namespace Zoo.Controllers
                 }
                 if (arrazaVM.Arraza.ID == 0) 
                 {
-                    _db.Arrazak.Add(arrazaVM.Arraza);
+                    _UnitOfWork.Arraza.Add(arrazaVM.Arraza);
                 }
                 else
                 {
-                    _db.Arrazak.Update(arrazaVM.Arraza);
+                    _UnitOfWork.Arraza.Update(arrazaVM.Arraza);
                 }
-                _db.SaveChanges();
+                _UnitOfWork.Save();
                 TempData["success"] = "Arraza ondo sortuta";
                 return RedirectToAction("Index");
             }
             else 
             {
-                arrazaVM.LekuakList = _db.Lekuak.ToList().Select(u => new SelectListItem
+                arrazaVM.LekuakList = _LekuaRepo.GetAll().ToList().Select(u => new SelectListItem
                 {
                     Text = u.Izena,
                     Value = u.ID.ToString()
@@ -116,7 +119,7 @@ namespace Zoo.Controllers
             }
             ArrazaVM arrazaVM = new()
             {
-                LekuakList = _db.Lekuak.ToList().Select(u => new SelectListItem
+                LekuakList = _LekuaRepo.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Izena,
                     Value = u.ID.ToString()
@@ -124,7 +127,7 @@ namespace Zoo.Controllers
                 Arraza = new Arraza()
             };
  
-            arrazaVM.Arraza = _db.Arrazak.Find(ID);
+            arrazaVM.Arraza = _UnitOfWork.Arraza.Get(u => u.ID == ID);
      
             if (arrazaVM == null)
             {
@@ -135,7 +138,7 @@ namespace Zoo.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? ID)
         {
-            Arraza? obj = _db.Arrazak.Find(ID);
+            Arraza? obj = _UnitOfWork.Arraza.Get(u => u.ID == ID);
             if (obj == null)
             {
                 return NotFound();
@@ -151,8 +154,8 @@ namespace Zoo.Controllers
                     System.IO.File.Delete(oldImagePath);
                 }
             }
-            _db.Arrazak.Remove(obj);
-            _db.SaveChanges();
+            _UnitOfWork.Arraza.Remove(obj);
+            _UnitOfWork.Save();
             TempData["success"] = "Arraza ondo borratuta";
             return RedirectToAction("Index");
 
